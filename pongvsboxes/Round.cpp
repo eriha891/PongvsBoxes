@@ -6,10 +6,11 @@ Round::Round()
 	nrOfPoints = 0;
 }
 
+/*
 void Round::setPlayerName(std::string name)
 {
 	playerName = name;
-}
+}*/
 
 Round::~Round(void)
 {

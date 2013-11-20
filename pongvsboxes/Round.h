@@ -11,7 +11,7 @@ public:
 
 	Round(void);
 
-	void Round::setPlayerName(std::string name);
+	//void Round::setPlayerName(std::string name);
 
 	~Round(void);
 };
