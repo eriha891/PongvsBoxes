@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	Round* round = new Round();
 
 
-	std::cout << "Testar att skriva ut test!" << endl;
+	std::cout << "Testar att skriva ut test!" << std::endl;
     //En ny kommentar
 	//En kommentar
 }
