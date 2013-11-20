@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Round.h"
+#include <iostream>
 
 
 int main(int argc, char *argv[])
@@ -26,5 +27,7 @@ int main(int argc, char *argv[])
         window.display();
     }
 
+	std::cout << "Testar att skriva ut test!" << std::endl;
+    //En ny kommentar
 	//En kommentar
 }
