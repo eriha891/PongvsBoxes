@@ -9,4 +9,6 @@ int main(int argc, char *argv[])
 
 
 	std::cout << "Testar att skriva ut test!" << endl;
+    //En ny kommentar
+	//En kommentar
 }
