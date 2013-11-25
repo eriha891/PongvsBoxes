@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
 
 	// Create a new Game Round
-	Round* round = new Round();
+//	Round* round = new Round();
 
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     sf::CircleShape shape(100.f);
