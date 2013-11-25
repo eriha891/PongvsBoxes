@@ -2,6 +2,7 @@
 #include <SFML/OpenGL.hpp>
 //#include <GL/gl.h>
 #include "Game.h"
+#include "Player.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
 
     //return 0;
 
+    Player player;
 
 
 		// Request a 32-bits depth buffer when creating the window
@@ -48,8 +50,7 @@ int main(int argc, char *argv[])
 
     // Define a 3D cube (6 faces made of 2 triangles composed by 3 vertices)
     GLfloat cube[] =
-    {
-        // positions    // colors (r, g, b, a)
+    {  // positions    // colors (r, g, b, a)
         -50, -50, -50,  0, 0, 1, 1,
         -50,  50, -50,  0, 0, 1, 1,
         -50, -50,  50,  0, 0, 1, 1,
@@ -92,12 +93,12 @@ int main(int argc, char *argv[])
          50, -50,  50,  1, 1, 0, 1,
          50,  50,  50,  1, 1, 0, 1,
     };
-
     // Enable position and color vertex components
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 7 * sizeof(GLfloat), cube);
-    glColorPointer(4, GL_FLOAT, 7 * sizeof(GLfloat), cube + 3);
+    glVertexPointer(3, GL_FLOAT, 7 * sizeof(GLfloat), player.getVertexData());
+    glColorPointer(4, GL_FLOAT, 7 * sizeof(GLfloat), player.getVertexData() + 3);
+
 
     // Disable normal and texture coordinates vertex components
     glDisableClientState(GL_NORMAL_ARRAY);
@@ -129,7 +130,8 @@ int main(int argc, char *argv[])
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Apply some transformations to rotate the cube
+        // Apply some transformations to rotate the
+
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glTranslatef(0.f, 0.f, -200.f);
