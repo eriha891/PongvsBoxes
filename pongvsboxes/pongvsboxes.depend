@@ -339,9 +339,10 @@
 	<string>
 	<vector>
 
-1385248052 source:c:\erik\tnm088-projektet\pongvsboxes\pongvsboxes\main.cpp
-	<SFML/Window.hpp>
+1385390223 source:c:\erik\tnm088-projektet\pongvsboxes\pongvsboxes\main.cpp
+	<SFML/Graphics.hpp>
 	<SFML/OpenGL.hpp>
+	<SFML/Window.hpp>
 	"Game.h"
 
 1385238562 c:\erik\tnm088-projektet\pongvsboxes\pongvsboxes\sfml-2.1\include\sfml\opengl.hpp
