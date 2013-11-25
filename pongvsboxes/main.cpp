@@ -167,6 +167,7 @@ int main(int argc, char *argv[])
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 
+
     // Create a clock for measuring the time elapsed
     sf::Clock clock;
 
