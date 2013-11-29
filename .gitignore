@@ -6,8 +6,8 @@
 *.user
 *.sln.docstates
 *.sln
-*.depend
 *.layout
+*.depend
 
 # Build results
 

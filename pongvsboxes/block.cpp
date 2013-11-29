@@ -14,7 +14,7 @@ block::block(float a, float b, float c, int l, int wB, int hB)
     y = b;
     z = c;
 
-    widhtB = wB;
+    widthB = wB;
     heightB = hB;
 
     lives = l;

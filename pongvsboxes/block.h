@@ -10,7 +10,7 @@ class block
         // Default constructor
         block();
 
-        block(float a, float b, float c);
+        block(float a, float b, float c, int l, int wB, int hB);
 };
 
-#endif // CLOCK_H_INCLUDED
+//#endif // CLOCK_H_INCLUDED
