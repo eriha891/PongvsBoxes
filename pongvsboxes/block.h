@@ -1,6 +1,3 @@
-#ifndef BLOCK_H_INCLUDED
-#endif  BLOCK_H_INCLUDED
-
 class block
 {
     public:
@@ -11,6 +8,6 @@ class block
         block();
 
         block(float a, float b, float c, int l, int wB, int hB);
-};
 
-//#endif // CLOCK_H_INCLUDED
+        int hits();
+};

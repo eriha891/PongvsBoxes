@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     // but here we want more control on it (generate mipmaps, ...) so we create a new one from an image
     GLuint texture = 0;
     {
+
         sf::Image image;
         if (!image.loadFromFile("resources/texture.jpg"))
             return EXIT_FAILURE;
