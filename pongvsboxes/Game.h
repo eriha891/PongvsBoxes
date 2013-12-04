@@ -27,4 +27,6 @@ private:
 
     bool mIsMovingLeft;
     bool mIsMovingRight;
+
+    int v;
 };

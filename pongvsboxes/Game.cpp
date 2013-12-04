@@ -84,24 +84,29 @@ void Game::update(sf::Time TimePerFrame)
            mPlayer.getPosition().x +100 > mWindow.getSize().x && speed.x > 0))
             mPlayer.move(speed * TimePerFrame.asSeconds());
 
-
+    //Randfunktion som bidrar med en "slumpmässig" viknel efter krock.
+    v = rand() % -10 + 10;
     //Update ball
     //Collision check against screen edge
     if (mBall.getPosition().y + ballRadius > mWindow.getSize().y)
     {
-        ballAngle = -ballAngle;
+        ballAngle = -ballAngle + v;
+        //ballAngle = -ballAngle;
     }
     if (mBall.getPosition().y - ballRadius < 0)
     {
-        ballAngle = -ballAngle;
+        ballAngle = -ballAngle + v;
+        //ballAngle = -ballAngle;
     }
     if (mBall.getPosition().x - ballRadius < 0)
     {
-        ballAngle = PI - ballAngle;
+        ballAngle = PI - ballAngle + v;
+        //ballAngle = PI - ballAngle;
     }
     if (mBall.getPosition().x + ballRadius > mWindow.getSize().x)
     {
-        ballAngle = PI - ballAngle;
+        ballAngle = PI - ballAngle + v;
+        //ballAngle = PI - ballAngle;
     }
 
     //Collision check against Player
