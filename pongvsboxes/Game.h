@@ -17,7 +17,13 @@ private:
     void render();
 
     sf::RenderWindow mWindow;
-    sf::CircleShape mPlayer;
+    sf::RectangleShape mPlayer;
+    sf::CircleShape mBall;
+    sf::RectangleShape testBlock;
+    int blockLife;
+
+    float ballRadius;
+    float ballAngle;
 
     bool mIsMovingLeft;
     bool mIsMovingRight;

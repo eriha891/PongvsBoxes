@@ -1,16 +1,32 @@
 //# include <SFML/Graphics.cp
 
 #include "Game.h"
+#include <cmath>
+
+const double PI  =3.141592653589793238462;
 
 Game::Game()
-: mWindow(sf::VideoMode(640, 480), "Pong vs Boxes")
-, mPlayer()
+: mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes")
+, mPlayer(), mBall()
 {
     mIsMovingLeft = false;
     mIsMovingRight = false;
-    mPlayer.setRadius(40.f);
-    mPlayer.setPosition(100.f, 100.f);
+    mPlayer.setSize(sf::Vector2f(100.f, 10.f));
+    mPlayer.setPosition(mWindow.getSize().x/2, mWindow.getSize().y - mWindow.getSize().y/10);
     mPlayer.setFillColor(sf::Color::Cyan);
+
+    ballRadius = 20.f;
+    mBall.setRadius(ballRadius);
+    mBall.setOrigin(ballRadius,ballRadius);
+    mBall.setPosition(400.f, 400.f);
+    mBall.setFillColor(sf::Color::Red);
+
+    ballAngle = -PI/4;
+
+    testBlock.setSize(sf::Vector2f(150.f,25.f));
+    testBlock.setPosition(200.f, 100.f);
+    testBlock.setFillColor(sf::Color::Green);
+
 }
 
 void Game::run()
@@ -58,19 +74,66 @@ void Game::processEvents()
 
 void Game::update(sf::Time TimePerFrame)
 {
+    //Update Player depending on keypresses
     sf::Vector2f speed(0.f, 0.f);
     if(mIsMovingLeft)
-            speed.x -= 100.f;
+            speed.x -= 200.f;
     if(mIsMovingRight)
-            speed.x += 100.f;
+            speed.x += 200.f;
+    if (!((mPlayer.getPosition().x < 0 && speed.x < 0) ||
+           mPlayer.getPosition().x +100 > mWindow.getSize().x && speed.x > 0))
+            mPlayer.move(speed * TimePerFrame.asSeconds());
 
-    mPlayer.move(speed * TimePerFrame.asSeconds());
+
+    //Update ball
+    //Collision check against screen edge
+    if (mBall.getPosition().y + ballRadius > mWindow.getSize().y)
+    {
+        ballAngle = -ballAngle;
+    }
+    if (mBall.getPosition().y - ballRadius < 0)
+    {
+        ballAngle = -ballAngle;
+    }
+    if (mBall.getPosition().x - ballRadius < 0)
+    {
+        ballAngle = PI - ballAngle;
+    }
+    if (mBall.getPosition().x + ballRadius > mWindow.getSize().x)
+    {
+        ballAngle = PI - ballAngle;
+    }
+
+    //Collision check against Player
+    if (mBall.getPosition().x + ballRadius > mPlayer.getPosition().x &&
+        mBall.getPosition().x - ballRadius < mPlayer.getPosition().x + 100 &&
+        mBall.getPosition().y + ballRadius > mPlayer.getPosition().y &&
+        mBall.getPosition().y - ballRadius < mPlayer.getPosition().y + 10)
+    {
+        ballAngle = -ballAngle;
+    }
+
+    if (mBall.getPosition().x + ballRadius > testBlock.getPosition().x &&
+        mBall.getPosition().x - ballRadius < testBlock.getPosition().x + 150 &&
+        mBall.getPosition().y + ballRadius > testBlock.getPosition().y &&
+        mBall.getPosition().y - ballRadius < testBlock.getPosition().y + 25)
+    {
+        ballAngle = -ballAngle;
+        testBlock.move(1000, 0);
+    }
+
+    mBall.move(TimePerFrame.asSeconds() * 200 * std::cos(ballAngle),
+               TimePerFrame.asSeconds() * 200 * std::sin(ballAngle));
+
+
 }
 
 void Game::render()
 {
     mWindow.clear();
     mWindow.draw(mPlayer);
+    mWindow.draw(mBall);
+    mWindow.draw(testBlock);
     mWindow.display();
 }
 

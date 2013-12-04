@@ -18,7 +18,6 @@ void Player::setPosition(float xx, float yy, float zz = -100.f)
 {
     x = xx;
     y = yy;
-    z = zz;
 }
 
 void Player::setSpeed(sf::Vector2f theSpeed)
