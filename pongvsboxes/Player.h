@@ -1,25 +1,26 @@
-#include <SFML/OpenGL.hpp>
 #include <String>
+
 
 class Player
 {
 public:
     Player();
-    Player(GLfloat x, GLfloat y, GLfloat z, GLfloat length, GLfloat height, GLfloat width);
+    //Player(GLfloat x, GLfloat y, GLfloat z, GLfloat length, GLfloat height, GLfloat width);
 
     ~Player();
 
-    GLfloat* getVertexData();
+    //GLfloat* getVertexData();
     int getVertexSize();
 
-    void setPosition(GLfloat xx, GLfloat yy, GLfloat zz);
+    void setPosition(float xx, float yy, float zz);
 
 
 private:
+    float x, y, z;
+
     std::string name;
     int numberOfLives;
-    GLfloat x, y, z;
-    GLfloat length, width, height;
-    GLfloat* vertexArrayData;
+    float length, width, height;
+    //GLfloat* vertexArrayData;
 };
 

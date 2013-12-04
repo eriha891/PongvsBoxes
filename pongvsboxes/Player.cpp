@@ -1,25 +1,20 @@
-#include <SFML/OpenGL.hpp>
+
 #include "Player.h"
 
 //Default constructor
 Player::Player()
 {
-    vertexArrayData = new GLfloat[getVertexSize()];
+
 }
 
-//Constructor
-Player::Player(GLfloat xx, GLfloat yy, GLfloat zz=-100.f, GLfloat theLength = 50.f, GLfloat theHeight = 50.f, GLfloat theWidth = 10.f)
-: x(xx), y(yy), z(zz), length(theLength), height(theHeight), width(theWidth)
-{
-    vertexArrayData = new GLfloat[getVertexSize()];
-}
 
 //Destructor
 Player::~Player()
 {
-    delete vertexArrayData;
+
 }
 
+/*
 //Returns the Vertex Array Data
 GLfloat* Player::getVertexData()
 {
@@ -78,17 +73,17 @@ GLfloat* Player::getVertexData()
     }
 
     return vertexArrayData;
-}
+}*/
 
-
+/*
 //Returns the size of the vertex array data
 int Player::getVertexSize()
 {
     return 252;
-}
+}*/
 
 
-void Player::setPosition(GLfloat xx, GLfloat yy, GLfloat zz = -100.f)
+void Player::setPosition(float xx, float yy, float zz = -100.f)
 {
     x = xx;
     y = yy;
