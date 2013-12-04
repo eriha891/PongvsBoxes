@@ -1,5 +1,6 @@
 #include <String>
-
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 class Player
 {
@@ -14,6 +15,8 @@ public:
 
     void setPosition(float xx, float yy, float zz);
 
+    void setSpeed(sf::Vector2f theSpeed);
+
 
 private:
     float x, y, z;
@@ -21,6 +24,7 @@ private:
     std::string name;
     int numberOfLives;
     float length, width, height;
-    //GLfloat* vertexArrayData;
+
+    sf::Vector2f speed;
 };
 
