@@ -19,3 +19,8 @@ block::block(float a, float b, float c, int l, int wB, int hB)
 
     lives = l;
 }
+
+int hits()
+{
+    return 0;
+}

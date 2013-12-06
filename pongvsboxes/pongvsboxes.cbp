@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+<<<<<<< HEAD
 					<Add directory="SFML-2.1/include" />
 				</Compiler>
 				<Linker>
@@ -22,6 +23,17 @@
 					<Add library="sfml-system" />
 					<Add library="glu32" />
 					<Add directory="SFML-2.1/lib" />
+=======
+					<Add option="-DGLEW_STATIC" />
+					<Add directory="SFML-2.1/include" />
+				</Compiler>
+				<Linker>
+					<Add library="sfml-graphics-d" />
+					<Add library="sfml-window-d" />
+					<Add library="sfml-system-d" />
+					<Add directory="SFML-2.1/lib" />
+					<Add directory="glew-1.10.0/lib/" />
+>>>>>>> a619d7835b125de79aa656c0c11c038ce962e898
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -46,8 +58,11 @@
 		<Unit filename="Game.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
+<<<<<<< HEAD
 		<Unit filename="Round.cpp" />
 		<Unit filename="Round.h" />
+=======
+>>>>>>> a619d7835b125de79aa656c0c11c038ce962e898
 		<Unit filename="block.cpp" />
 		<Unit filename="block.h" />
 		<Unit filename="main.cpp" />
@@ -55,6 +70,15 @@
 			<code_completion />
 			<envvars />
 			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
