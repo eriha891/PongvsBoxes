@@ -1,24 +1,43 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
+
 #include <String>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-class Player
+using namespace sf;
+
+class Player : public RectangleShape
 {
 public:
-    Player();
+     Player();
+     ~Player();
 
-    ~Player();
+     void Load(std::string filename);
+     void Draw(sf::RenderWindow &window);
 
-    void setPosition(float xx, float yy, float zz);
+//     void Setposition(float x, float y);
 
-    void setSpeed(sf::Vector2f theSpeed);
+     void setSpeed(sf::Vector2f theSpeed);
 
 
 private:
-    float x, y;
+
+
+    sf::RectangleShape _rect;
+
+    sf::Sprite _sprite;
+    sf::Image  _image;
+    std::string filename;
+
+    bool _isloaded;
+
+    float _x, _y;
 
     float length, width, height;
 
     sf::Vector2f speed;
 };
 
+#endif

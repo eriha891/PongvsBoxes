@@ -23,10 +23,21 @@ Game::Game()
 
     ballAngle = -PI/4;
 
-    testBlock.setSize(sf::Vector2f(150.f,25.f));
-    testBlock.setPosition(200.f, 100.f);
-    testBlock.setFillColor(sf::Color::Green);
+   //skapar två rader av block
+    for(int i = 0; i < 10; i++){
+       if( i > 4 ){
+           int x = i%5;
+           _player[i].setSize(sf::Vector2f(150.f,25.f));
+           _player[i].setPosition(30.f +x*200.f, 0.f + 50.f);
+           _player[i].setFillColor(sf::Color::Green);
 
+       }else{
+           _player[i].setSize(sf::Vector2f(150.f,25.f));
+           _player[i].setPosition(30.f +i*200.f, 0.f);
+           _player[i].setFillColor(sf::Color::Green);
+
+       }
+    }
 }
 
 void Game::run()
@@ -85,28 +96,28 @@ void Game::update(sf::Time TimePerFrame)
             mPlayer.move(speed * TimePerFrame.asSeconds());
 
     //Randfunktion som bidrar med en "slumpmässig" viknel efter krock.
-    v = rand() % -10 + 10;
+    //v = rand() % -10 + 10;
     //Update ball
     //Collision check against screen edge
     if (mBall.getPosition().y + ballRadius > mWindow.getSize().y)
     {
-        ballAngle = -ballAngle + v;
-        //ballAngle = -ballAngle;
+        //ballAngle = -ballAngle + v;
+        ballAngle = -ballAngle;
     }
     if (mBall.getPosition().y - ballRadius < 0)
     {
-        ballAngle = -ballAngle + v;
-        //ballAngle = -ballAngle;
+        //ballAngle = -ballAngle + v;
+        ballAngle = -ballAngle;
     }
     if (mBall.getPosition().x - ballRadius < 0)
     {
-        ballAngle = PI - ballAngle + v;
-        //ballAngle = PI - ballAngle;
+        //ballAngle = PI - ballAngle + v;
+        ballAngle = PI - ballAngle;
     }
     if (mBall.getPosition().x + ballRadius > mWindow.getSize().x)
     {
-        ballAngle = PI - ballAngle + v;
-        //ballAngle = PI - ballAngle;
+        //ballAngle = PI - ballAngle + v;
+        ballAngle = PI - ballAngle;
     }
 
     //Collision check against Player
@@ -127,6 +138,18 @@ void Game::update(sf::Time TimePerFrame)
         testBlock.move(1000, 0);
     }
 
+    //tar bort block vid kollision
+    for (int i = 0 ; i < 10 ; i++){
+       if (mBall.getPosition().x + ballRadius > _player[i].getPosition().x &&
+           mBall.getPosition().x - ballRadius < _player[i].getPosition().x + 150 &&
+           mBall.getPosition().y + ballRadius > _player[i].getPosition().y &&
+           mBall.getPosition().y - ballRadius < _player[i].getPosition().y + 25)
+       {
+           ballAngle = -ballAngle;
+           _player[i].move(1000, 0);
+       }
+    }
+
     mBall.move(TimePerFrame.asSeconds() * 200 * std::cos(ballAngle),
                TimePerFrame.asSeconds() * 200 * std::sin(ballAngle));
 
@@ -138,16 +161,23 @@ void Game::render()
     mWindow.clear();
     mWindow.draw(mPlayer);
     mWindow.draw(mBall);
-    mWindow.draw(testBlock);
+
+    for (int i = 0; i < 10; i++){
+    //_player[i].Draw(mWindow);
+      mWindow.draw(_player[i]);
+    }
+
+    //mWindow.draw(testBlock);
     mWindow.display();
 }
 
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
 {
-
     if (key == sf::Keyboard::D)
         mIsMovingRight = pressed;
     if (key == sf::Keyboard::A)
         mIsMovingLeft = pressed;
 }
+
+

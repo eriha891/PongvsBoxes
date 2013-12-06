@@ -2,6 +2,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
+#include "Player.h"
+
 class Game
 {
 public:
@@ -20,6 +22,7 @@ private:
     sf::RectangleShape mPlayer;
     sf::CircleShape mBall;
     sf::RectangleShape testBlock;
+
     int blockLife;
 
     float ballRadius;
@@ -29,4 +32,7 @@ private:
     bool mIsMovingRight;
 
     int v;
+
+    Player _player[10];
+
 };
