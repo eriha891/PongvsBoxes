@@ -1,31 +1,19 @@
-#include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "ResourceHolder.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-//Default constructor
-Player::Player()
+
+Player::Player(const TextureHolder& textures)
+ : mSprite(textures.get(Textures::Player))
 {
-
+    sf::FloatRect bounds = mSprite.getLocalBounds();
+	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
 
-//Destructor
-Player::~Player()
+void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-
-}
-void Player::Draw(sf::RenderWindow & renderWindow)
-{
-    renderWindow.draw(_rect);
-}
-
-//void Player::Setposition(float x, float y)
-//{
-//    _rect.setPosition(x,y);
-//    _rect.setSize(sf::Vector2f(150.f,25.f));
-//    _rect.setFillColor(sf::Color::Green);
-//}
-
-void Player::setSpeed(sf::Vector2f theSpeed)
-{
-    speed = theSpeed;
+    target.draw(mSprite, states);
 }

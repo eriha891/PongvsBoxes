@@ -1,21 +1,19 @@
+#include "ball.h"
+#include "ResourceHolder.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 
-#include "Ball.h"
-
-Ball::Ball()
+Ball::Ball(const TextureHolder& textures)
+: mSprite(textures.get(Textures::Ball))
 {
-    x = y = z = 0.0f;
+    sf::FloatRect bounds = mSprite.getLocalBounds();
+	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-
-Ball::Ball(float a, float b, float c)
+void Ball::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    x = a;
-    y = b;
-    z = c;
+    target.draw(mSprite, states);
 }
 
-void set_position()
-{
-    //code
-}

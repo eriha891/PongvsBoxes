@@ -5,39 +5,21 @@
 #include <String>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "Entity.h"
+#include "ResourceIdentifier.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 
-using namespace sf;
-
-class Player : public RectangleShape
+class Player : public Entity
 {
 public:
-     Player();
-     ~Player();
+     Player(const TextureHolder& textures);
 
-     void Load(std::string filename);
-     void Draw(sf::RenderWindow &window);
-
-//     void Setposition(float x, float y);
-
-     void setSpeed(sf::Vector2f theSpeed);
+     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
 
-private:
+protected:
 
-
-    sf::RectangleShape _rect;
-
-    sf::Sprite _sprite;
-    sf::Image  _image;
-    std::string filename;
-
-    bool _isloaded;
-
-    float _x, _y;
-
-    float length, width, height;
-
-    sf::Vector2f speed;
+    sf::Sprite mSprite;
 };
 
 #endif

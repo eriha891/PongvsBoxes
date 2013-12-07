@@ -2,12 +2,15 @@
 
 #include "Game.h"
 #include <cmath>
+#include <vector>
 
 const double PI  =3.141592653589793238462;
+const sf::Time TimePerFrame = sf::seconds(1.f/60);
 
 Game::Game()
-: mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes")
-, mPlayer(), mBall()
+: mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes", sf::Style::Close)
+, mBall()
+, mWorld(mWindow)
 {
     mIsMovingLeft = false;
     mIsMovingRight = false;
@@ -23,21 +26,6 @@ Game::Game()
 
     ballAngle = -PI/4;
 
-   //skapar två rader av block
-    for(int i = 0; i < 10; i++){
-       if( i > 4 ){
-           int x = i%5;
-           _player[i].setSize(sf::Vector2f(150.f,25.f));
-           _player[i].setPosition(30.f +x*200.f, 0.f + 50.f);
-           _player[i].setFillColor(sf::Color::Green);
-
-       }else{
-           _player[i].setSize(sf::Vector2f(150.f,25.f));
-           _player[i].setPosition(30.f +i*200.f, 0.f);
-           _player[i].setFillColor(sf::Color::Green);
-
-       }
-    }
 }
 
 void Game::run()
@@ -128,7 +116,7 @@ void Game::update(sf::Time TimePerFrame)
     {
         ballAngle = -ballAngle;
     }
-
+/*
     if (mBall.getPosition().x + ballRadius > testBlock.getPosition().x &&
         mBall.getPosition().x - ballRadius < testBlock.getPosition().x + 150 &&
         mBall.getPosition().y + ballRadius > testBlock.getPosition().y &&
@@ -136,9 +124,10 @@ void Game::update(sf::Time TimePerFrame)
     {
         ballAngle = -ballAngle;
         testBlock.move(1000, 0);
-    }
+    } */
 
     //tar bort block vid kollision
+    /*
     for (int i = 0 ; i < 10 ; i++){
        if (mBall.getPosition().x + ballRadius > _player[i].getPosition().x &&
            mBall.getPosition().x - ballRadius < _player[i].getPosition().x + 150 &&
@@ -148,11 +137,12 @@ void Game::update(sf::Time TimePerFrame)
            ballAngle = -ballAngle;
            _player[i].move(1000, 0);
        }
-    }
+    }*/
 
     mBall.move(TimePerFrame.asSeconds() * 200 * std::cos(ballAngle),
                TimePerFrame.asSeconds() * 200 * std::sin(ballAngle));
 
+    mWorld.update(TimePerFrame);
 
 }
 
@@ -164,11 +154,13 @@ void Game::render()
 
     for (int i = 0; i < 10; i++){
     //_player[i].Draw(mWindow);
-      mWindow.draw(_player[i]);
+      //mWindow.draw(_player[i]);
     }
 
-    //mWindow.draw(testBlock);
-    mWindow.display();
+    //Ritar världen
+	mWorld.draw();
+
+	mWindow.display();
 }
 
 

@@ -1,13 +1,22 @@
-class block
+
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+#include "Entity.h"
+#include "ResourceIdentifier.hpp"
+#include <SFML/Graphics/Sprite.hpp>
+
+class Block : public Entity
 {
     public:
-
-        int lives, widthB, heightB;
-        float x, y, z;
         // Default constructor
-        block();
+        Block(const TextureHolder& textures);
+     //   Block(float x, float y, int life = 0);
 
-        block(float a, float b, float c, int l, int wB, int hB);
+        virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
-        int hits();
+
+    protected:
+
+        sf::Sprite mSprite;
+
 };
