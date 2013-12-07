@@ -1,21 +1,34 @@
-
-
 #include "Ball.h"
 
 Ball::Ball()
 {
-    x = y = z = 0.0f;
+    pos.x = 1.0f;
+    pos.y = 1.0f;
+    vel.x = 1.0f;
+    vel.y = 1.0f;
+    speed = 1.0f;
 }
 
-
-Ball::Ball(float a, float b, float c)
+Ball::Ball(float xpos, float ypos)
 {
-    x = a;
-    y = b;
-    z = c;
+    pos.x = xpos;
+    pos.y = ypos;
 }
 
-void set_position()
+void Ball::setPosition(float xpos, float ypos)
 {
-    //code
+    pos.x = xpos;
+    pos.y = ypos;
+}
+
+void Ball::updatePosition(float xpos, float ypos)
+{
+    pos.x = xpos;
+    pos.y = ypos;
+}
+
+void Ball::setVelocity(float xpos, float ypos)
+{
+    vel.x = xpos;
+    vel.y = ypos;
 }

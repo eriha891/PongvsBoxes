@@ -1,6 +1,6 @@
 #include <SFML/Window.hpp>
 #include <SFML\System.hpp>
-
+#include <cmath>
 #include "Game.h"
 #include "Player.h"
 

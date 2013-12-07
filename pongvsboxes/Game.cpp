@@ -1,14 +1,23 @@
 //# include <SFML/Graphics.cp
 
 #include "Game.h"
-#include <cmath>
+
+#include <iostream>
 
 const double PI  =3.141592653589793238462;
 
+Game::Game() : mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes")
+{
+/*
 Game::Game()
 : mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes")
-, mPlayer(), mBall()
-{
+//, mPlayer(), mBall()
+{*/
+//Game::Game()
+//{
+
+    //mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes");
+/*
     mIsMovingLeft = false;
     mIsMovingRight = false;
     mPlayer.setSize(sf::Vector2f(100.f, 10.f));
@@ -38,6 +47,7 @@ Game::Game()
 
        }
     }
+    */
 }
 
 void Game::run()
@@ -85,6 +95,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time TimePerFrame)
 {
+    /*
     //Update Player depending on keypresses
     sf::Vector2f speed(0.f, 0.f);
     if(mIsMovingLeft)
@@ -153,31 +164,37 @@ void Game::update(sf::Time TimePerFrame)
     mBall.move(TimePerFrame.asSeconds() * 200 * std::cos(ballAngle),
                TimePerFrame.asSeconds() * 200 * std::sin(ballAngle));
 
-
+    */
 }
 
 void Game::render()
 {
-    mWindow.clear();
-    mWindow.draw(mPlayer);
-    mWindow.draw(mBall);
 
-    for (int i = 0; i < 10; i++){
+    mWindow.clear();
+    //mWindow.draw(mPlayer);
+    //mWindow.draw(mBall);
+
+    //for (int i = 0; i < 10; i++){
     //_player[i].Draw(mWindow);
-      mWindow.draw(_player[i]);
-    }
+    //  mWindow.draw(_player[i]);
+    //}
 
     //mWindow.draw(testBlock);
+
+    //_player.draw(mWindow);
+    mWindow.draw(_player._rect);
     mWindow.display();
+
 }
 
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
 {
+    /*
     if (key == sf::Keyboard::D)
         mIsMovingRight = pressed;
     if (key == sf::Keyboard::A)
-        mIsMovingLeft = pressed;
+        mIsMovingLeft = pressed;*/
 }
 
 
