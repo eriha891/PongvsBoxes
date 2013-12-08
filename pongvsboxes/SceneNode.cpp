@@ -1,11 +1,18 @@
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+
+#include "Foreach.hpp"
 #include "SceneNode.hpp"
+
 #include <algorithm>
 #include <cassert>
-#include "Foreach.hpp"
+#include <cmath>
 
-SceneNode::SceneNode()
+
+SceneNode::SceneNode(Category::Type category)
 : mChildren()
 , mParent(nullptr)
+, mDefaultCategory(category)
 {
 
 }
@@ -79,4 +86,60 @@ sf::Transform SceneNode::getWorldTransform() const
 
 	return transform;
 }
+sf::FloatRect SceneNode::getBoundingRect() const
+{
+        return sf::FloatRect();
+}
+void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const
+{
+        sf::FloatRect rect = getBoundingRect();
+
+        sf::RectangleShape shape;
+        shape.setPosition(sf::Vector2f(rect.left, rect.top));
+        shape.setSize(sf::Vector2f(rect.width, rect.height));
+        shape.setFillColor(sf::Color::Transparent);
+        shape.setOutlineColor(sf::Color::Green);
+        shape.setOutlineThickness(1.f);
+
+        target.draw(shape);
+}
+bool SceneNode::isMarkedForRemoval() const
+{
+        // By default, remove node if entity is destroyed
+        return isDestroyed();
+}
+bool SceneNode::isDestroyed() const
+{
+        // By default, scene node needn't be removed
+        return false;
+}
+bool collision(const SceneNode& lhs, const SceneNode& rhs)
+{
+        return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
+}
+void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs)
+{
+        if (this != &node && collision(*this, node) && !isDestroyed() && !node.isDestroyed())
+                collisionPairs.insert(std::minmax(this, &node));
+
+        FOREACH(Ptr& child, mChildren)
+                child->checkNodeCollision(node, collisionPairs);
+}
+void SceneNode::checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& collisionPairs)
+{
+        checkNodeCollision(sceneGraph, collisionPairs);
+
+        FOREACH(Ptr& child, sceneGraph.mChildren)
+                checkSceneCollision(*child, collisionPairs);
+}
+unsigned int SceneNode::getCategory() const
+{
+        return mDefaultCategory;
+}
+//float distance(const SceneNode& lhs, const SceneNode& rhs)
+//{
+//        return length(lhs.getWorldPosition() - rhs.getWorldPosition());
+//}
+
+
 

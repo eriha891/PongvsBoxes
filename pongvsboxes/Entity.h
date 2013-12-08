@@ -11,6 +11,10 @@ class Entity : public SceneNode
 
         sf::Vector2f getVelocity() const;
 
+        void destroy();
+
+
+
     private:
         virtual void updateCurrent(sf::Time dt);
 

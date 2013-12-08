@@ -8,15 +8,28 @@
 class Block : public Entity
 {
     public:
+       enum Type
+                {
+                  Block1
+
+                };
+
+
+        Block(Type type, const TextureHolder& textures);
+        virtual sf::FloatRect getBoundingRect() const;
+
         // Default constructor
-        Block(const TextureHolder& textures);
-     //   Block(float x, float y, int life = 0);
+
+        //   Block(float x, float y, int life = 0);
 
         virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
+        virtual unsigned int        getCategory() const;
 
     protected:
 
         sf::Sprite mSprite;
+    private:
+        Type mType;
 
 };

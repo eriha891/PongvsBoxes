@@ -38,6 +38,9 @@ class World : private sf::NonCopyable
         };
 
     private:
+
+        void   handleCollisions();
+
         sf::RenderWindow& mWindow;
         TextureHolder mTextures;
         SceneNode mSceneGraph;
@@ -49,6 +52,9 @@ class World : private sf::NonCopyable
         Block* mBlocks[MAX_AMOUNT_OF_BLOCKS];
         Player* mPlayer;
         Ball* mBall;
+
+        float ballAngle;
+        const double PI  =3.141592653589793238462;
 };
 
 #endif
