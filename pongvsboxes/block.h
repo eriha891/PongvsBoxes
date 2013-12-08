@@ -16,7 +16,7 @@ class Block : public Entity
 
 
         Block(Type type, const TextureHolder& textures);
-        virtual sf::FloatRect getBoundingRect() const;
+
 
         // Default constructor
 
@@ -25,6 +25,8 @@ class Block : public Entity
         virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
         virtual unsigned int        getCategory() const;
+        virtual sf::FloatRect getBoundingRect() const;
+
 
     protected:
 

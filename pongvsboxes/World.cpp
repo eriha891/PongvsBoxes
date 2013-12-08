@@ -49,7 +49,7 @@ void World::buildScene()
     }
 
     //Skapar Player och sätter i foreground
-    std::unique_ptr<Player> player(new Player(mTextures));
+    std::unique_ptr<Player> player(new Player(Player::Player1, mTextures));
     mPlayer = player.get();
     mPlayer->setPosition(500, 500);
     mSceneLayers[Foreground]->attachChild(std::move(player));
@@ -86,16 +86,16 @@ void World::update(sf::Time dt)
     if (mBall->getPosition().x  < 0)
     {
         //ballAngle = PI - ballAngle + v;
-        ballAngle = PI - ballAngle;
+        ballAngle = PI - ballAngle-90.f;
     }
     if (mBall->getPosition().x > mWindow.getSize().x)
     {
         //ballAngle = PI - ballAngle + v;
-        ballAngle = PI - ballAngle +150.f;
+        ballAngle = PI - ballAngle +90.f ;
     }
 
-    mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle),
-               dt.asSeconds() * 200 * std::sin(ballAngle));
+    mBall->move(dt.asSeconds() * 800 * std::cos(ballAngle),
+               dt.asSeconds() * 1000 * std::sin(ballAngle));
 
     handleCollisions();
 
@@ -131,26 +131,27 @@ void World::handleCollisions()
         {
                 if (matchesCategories(pair, Category::Ball, Category::Block))
                 {
-                        auto& player = static_cast<Ball&>(*pair.first);
-                        auto& enemy =  static_cast<Block&>(*pair.second);
+                        auto& ball = static_cast<Ball&>(*pair.first);
+                        auto& block =  static_cast<Block&>(*pair.second);
 
                         // Collision: Player damage = enemy's remaining HP
                         //player.damage(enemy.getHitpoints());
                         //enemy.destroy();
-                        enemy.move(1000, 0);
+                        block.move(1000, 0);
                         ballAngle = -ballAngle;
                         //player.move(1000, 0);
                 }
 
-//                else if (matchesCategories(pair, Category::PlayerAircraft, Category::Pickup))
-//                {
-//                        auto& player = static_cast<Aircraft&>(*pair.first);
-//                        auto& pickup = static_cast<Pickup&>(*pair.second);
-//
-//                        // Apply pickup effect to player, destroy projectile
+                else if (matchesCategories(pair, Category::Ball, Category::Player))
+                {
+                        auto& ball = static_cast<Ball&>(*pair.first);
+                        auto& player = static_cast<Player&>(*pair.second);
+
+                        // Apply pickup effect to player, destroy projectile
 //                        pickup.apply(player);
 //                        pickup.destroy();
-//                }
+                           ballAngle = -ballAngle;
+                }
 //
 //                else if (matchesCategories(pair, Category::EnemyAircraft, Category::AlliedProjectile)
 //                          || matchesCategories(pair, Category::PlayerAircraft, Category::EnemyProjectile))
