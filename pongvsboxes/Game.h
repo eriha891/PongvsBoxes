@@ -22,18 +22,6 @@ private:
     void render();
 
     sf::RenderWindow mWindow;
-    sf::RectangleShape mPlayer;
-    sf::CircleShape mBall;
 
-    float ballRadius;
-    float ballAngle;
-
-    bool mIsMovingLeft;
-    bool mIsMovingRight;
-
-    int v;
-
-//    vector<Player> blocks;
-    //Player _player[10];
 
 };
