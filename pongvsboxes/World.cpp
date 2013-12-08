@@ -45,16 +45,16 @@ void World::buildScene()
 
     //Skapar tio block och lägger i Lagret Foreground
 
-    for (int i = 0; i < 10; i++)
 
-
+    for (int i = 0; i < 2; i++)
     {
-        std::unique_ptr<Block> block(new Block(Block::Block1, mTextures));
-        mBlocks[i] = block.get();
-        mBlocks[i]->setPosition(100+75*i, 100);
-        mBlocks[i]->setVelocity(0, 0);
-        mSceneLayers[Foreground]->attachChild(std::move(block));
-
+        for (int j = 0; j < 12; j++){
+            std::unique_ptr<Block> block(new Block(Block::Block1, mTextures));
+            mBlocks[i] = block.get();
+            mBlocks[i]->setPosition(100+75*j, 50 + 50*i);
+            mBlocks[i]->setVelocity(0, 0);
+            mSceneLayers[Foreground]->attachChild(std::move(block));
+        }
     }
 
     //Skapar Player och sätter i foreground
