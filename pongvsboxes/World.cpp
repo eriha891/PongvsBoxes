@@ -120,8 +120,7 @@ void World::update(sf::Time dt)
     mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle),
                 dt.asSeconds() *  300 * std::sin(ballAngle));
 
-        ballAngle = PI - ballAngle +90.f ;
-    }
+
 
 
     handleCollisions();
@@ -165,16 +164,6 @@ void World::handleCollisions()
                         block.move(1000, 0);
                         ballAngle = -ballAngle;
                 }
-
-                        // Collision: Player damage = enemy's remaining HP
-                        //player.damage(enemy.getHitpoints());
-                        //enemy.destroy();
-                        block.move(1000, 0);
-                        ballAngle = -ballAngle;
-                        //player.move(1000, 0);
-                }
-
-
                 else if (matchesCategories(pair, Category::Ball, Category::Player))
                 {
                         auto& ball = static_cast<Ball&>(*pair.first);
@@ -183,8 +172,11 @@ void World::handleCollisions()
 
                            ballAngle = -ballAngle;
                 }
-        }
 }
+}
+
+
+
 void World::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
 {
     if (key == sf::Keyboard::D)
