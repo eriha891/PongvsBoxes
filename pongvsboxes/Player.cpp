@@ -1,26 +1,29 @@
-
 #include "Player.h"
+#include "ResourceHolder.hpp"
 
-//Default constructor
-Player::Player()
+
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+
+
+Player::Player(Type type, const TextureHolder& textures)
+ : mType(type), mSprite(textures.get(Textures::Player))
 {
-
+    sf::FloatRect bounds = mSprite.getLocalBounds();
+	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
 
-//Destructor
-Player::~Player()
+void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-
+    target.draw(mSprite, states);
 }
-
-void Player::setPosition(float xx, float yy, float zz = -100.f)
+sf::FloatRect Player::getBoundingRect() const
 {
-    x = xx;
-    y = yy;
+        return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
-
-void Player::setSpeed(sf::Vector2f theSpeed)
+unsigned int Player::getCategory() const
 {
-    speed = theSpeed;
+      return Category::Player;
 }

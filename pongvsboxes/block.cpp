@@ -1,26 +1,28 @@
 #include "block.h"
+#include "ResourceHolder.hpp"
 
-// Default constructor
-block::block()
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+
+
+Block::Block(Type type, const TextureHolder& textures)
+: mType(type), mSprite(textures.get(Textures::Block))
 {
-    x = y = z = 0.0f;
-    lives = widthB = heightB = 0;
+    sf::FloatRect bounds = mSprite.getLocalBounds();
+	 mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-// Construcor to set position, size of block and lives
-block::block(float a, float b, float c, int l, int wB, int hB)
+void Block::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    x = a;
-    y = b;
-    z = c;
-
-    widthB = wB;
-    heightB = hB;
-
-    lives = l;
+    target.draw(mSprite, states);
+}
+sf::FloatRect Block::getBoundingRect() const
+{
+        return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+}
+unsigned int Block::getCategory() const
+{
+      return Category::Block;
 }
 
-int hits()
-{
-    return 0;
-}

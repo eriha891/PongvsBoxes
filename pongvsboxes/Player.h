@@ -1,24 +1,36 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
+#include "Entity.h"
+#include "ResourceIdentifier.hpp"
+
 #include <String>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
-class Player
+class Player : public Entity
 {
 public:
-    Player();
+    enum Type
+                {
+                  Player1
 
-    ~Player();
+                };
+     Player(Type type, const TextureHolder& textures);
 
-    void setPosition(float xx, float yy, float zz);
+     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void setSpeed(sf::Vector2f theSpeed);
+     virtual unsigned int        getCategory() const;
+     virtual sf::FloatRect       getBoundingRect() const;
 
+
+protected:
+
+    sf::Sprite mSprite;
 
 private:
-    float x, y;
-
-    float length, width, height;
-
-    sf::Vector2f speed;
+    Type mType;
 };
 
+#endif
