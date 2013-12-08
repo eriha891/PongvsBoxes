@@ -24,10 +24,13 @@ class World : private sf::NonCopyable
         explicit World(sf::RenderWindow& window);
         void update(sf::Time dt);
         void draw();
+
         void handlePlayerInput(sf::Keyboard::Key, bool pressed);
 
         bool mIsMovingLeft;
         bool mIsMovingRight;
+
+
 
     private:
         void loadTextures();
@@ -59,6 +62,8 @@ class World : private sf::NonCopyable
 
         float ballAngle;
         const double PI  =3.141592653589793238462;
+
+
 
 
 };

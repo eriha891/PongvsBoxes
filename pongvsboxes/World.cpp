@@ -11,8 +11,10 @@ World::World(sf::RenderWindow& window)
 , mSceneGraph()
 , mSceneLayers()
 {
+
     mIsMovingLeft = false;
     mIsMovingRight = false;
+
 
     for (int i=0; i<MAX_AMOUNT_OF_BLOCKS; i++)
     {
@@ -42,7 +44,10 @@ void World::buildScene()
     }
 
     //Skapar tio block och lägger i Lagret Foreground
+
     for (int i = 0; i < 10; i++)
+
+
     {
         std::unique_ptr<Block> block(new Block(Block::Block1, mTextures));
         mBlocks[i] = block.get();
@@ -77,6 +82,7 @@ void World::draw()
 
 void World::update(sf::Time dt)
 {
+
     sf::Vector2f speed(0.f, 0.f);
 
     if(mIsMovingLeft)
@@ -86,7 +92,6 @@ void World::update(sf::Time dt)
     if (!((mPlayer->getPosition().x < 0 && speed.x < 0) ||
            mPlayer->getPosition().x +100 > mWindow.getSize().x && speed.x > 0))
            mPlayer->move(speed * dt.asSeconds());
-
 
    if (mBall->getPosition().y > mWindow.getSize().y)
     {
@@ -101,16 +106,23 @@ void World::update(sf::Time dt)
     if (mBall->getPosition().x  < 0)
     {
         //ballAngle = PI - ballAngle + v;
+
         ballAngle = PI - ballAngle;
+
     }
     if (mBall->getPosition().x > mWindow.getSize().x)
     {
         //ballAngle = PI - ballAngle + v;
+
         ballAngle = PI - ballAngle + 180.f;
     }
 
     mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle),
                 dt.asSeconds() *  300 * std::sin(ballAngle));
+
+        ballAngle = PI - ballAngle +90.f ;
+    }
+
 
     handleCollisions();
 
@@ -149,13 +161,25 @@ void World::handleCollisions()
                         auto& ball = static_cast<Ball&>(*pair.first);
                         auto& block =  static_cast<Block&>(*pair.second);
 
+
                         block.move(1000, 0);
                         ballAngle = -ballAngle;
                 }
+
+                        // Collision: Player damage = enemy's remaining HP
+                        //player.damage(enemy.getHitpoints());
+                        //enemy.destroy();
+                        block.move(1000, 0);
+                        ballAngle = -ballAngle;
+                        //player.move(1000, 0);
+                }
+
+
                 else if (matchesCategories(pair, Category::Ball, Category::Player))
                 {
                         auto& ball = static_cast<Ball&>(*pair.first);
                         auto& player = static_cast<Player&>(*pair.second);
+
 
                            ballAngle = -ballAngle;
                 }
@@ -168,3 +192,4 @@ void World::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
     if (key == sf::Keyboard::A)
         mIsMovingLeft = pressed;
 }
+

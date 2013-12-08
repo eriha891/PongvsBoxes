@@ -74,6 +74,7 @@ void Game::processEvents()
 void Game::update(sf::Time TimePerFrame)
 {
     //Update Player depending on keypresses
+
 //    sf::Vector2f speed(0.f, 0.f);
 //    if(mIsMovingLeft)
 //            speed.x -= 200.f;
@@ -82,6 +83,7 @@ void Game::update(sf::Time TimePerFrame)
 //    if (!((mPlayer.getPosition().x < 0 && speed.x < 0) ||
 //           mPlayer.getPosition().x +100 > mWindow.getSize().x && speed.x > 0))
 //            mPlayer.move(speed * TimePerFrame.asSeconds());
+
 
     //Randfunktion som bidrar med en "slumpmässig" viknel efter krock.
     //v = rand() % -10 + 10;
