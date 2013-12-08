@@ -11,6 +11,7 @@ World::World(sf::RenderWindow& window)
 , mSceneGraph()
 , mSceneLayers()
 {
+    ballAngle = PI/4;
 
     mIsMovingLeft = false;
     mIsMovingRight = false;
@@ -114,7 +115,7 @@ void World::update(sf::Time dt)
     {
         //ballAngle = PI - ballAngle + v;
 
-        ballAngle = PI - ballAngle + 180.f;
+        ballAngle = PI - ballAngle;
     }
 
     mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle),

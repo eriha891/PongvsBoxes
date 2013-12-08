@@ -24,7 +24,7 @@ public:
      virtual unsigned int        getCategory() const;
      virtual sf::FloatRect       getBoundingRect() const;
 
-
+    virtual void updateCurrent(sf::Time dt);
 protected:
 
     sf::Sprite mSprite;

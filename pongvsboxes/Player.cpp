@@ -27,3 +27,9 @@ unsigned int Player::getCategory() const
 {
       return Category::Player;
 }
+
+void Player::updateCurrent(sf::Time dt)
+{
+    //if (getBoundingRect().left > 0 && (getBoundingRect().left + getBoundingRect().width) <
+    move(getVelocity()* dt.asSeconds());
+}
