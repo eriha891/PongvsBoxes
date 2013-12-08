@@ -13,8 +13,11 @@
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/System.hpp>
+#include <random>
 
 #include <array>
+#include <string>
 
 const int MAX_AMOUNT_OF_BLOCKS = 100;
 
@@ -27,8 +30,13 @@ class World : private sf::NonCopyable
 
         void handlePlayerInput(sf::Keyboard::Key, bool pressed);
 
+        std::string getScore();
+
+
         bool mIsMovingLeft;
         bool mIsMovingRight;
+
+
 
 
 
@@ -61,10 +69,14 @@ class World : private sf::NonCopyable
         Ball* mBall;
 
         float ballAngle;
+
+        int score = 0;
         const double PI  =3.141592653589793238462;
 
 
-
+        std::default_random_engine generator;
+        std::uniform_real_distribution<float> distribution;
+        float randomValue;
 
 };
 

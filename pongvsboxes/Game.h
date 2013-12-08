@@ -20,8 +20,11 @@ private:
     void processEvents();
     void update(sf::Time TimePerFrame);
     void render();
+    void updateScore();
 
     sf::RenderWindow mWindow;
+    sf::Font mFont;
+    sf::Text mScore;
 
 
 };

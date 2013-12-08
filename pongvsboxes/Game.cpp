@@ -10,8 +10,14 @@ const sf::Time TimePerFrame = sf::seconds(1.f/60);
 Game::Game()
 : mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes", sf::Style::Close)
 , mWorld(mWindow)
+, mFont()
+, mScore()
 {
-
+    mFont.loadFromFile("resources/sansation.ttf");
+    mScore.setFont(mFont);
+    mScore.setPosition(mWindow.getSize().x-100, mWindow.getSize().y-50);
+    mScore.setCharacterSize(20);
+    mScore.setColor(sf::Color::White);
 }
 
 void Game::run()
@@ -31,6 +37,8 @@ void Game::run()
             processEvents();
             update(TimePerFrame);
         }
+
+        updateScore();
         render();
     }
 }
@@ -71,6 +79,7 @@ void Game::render()
     //Ritar världen
 	mWorld.draw();
 
+    mWindow.draw(mScore);
 	mWindow.display();
 }
 
@@ -83,4 +92,8 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
         mWorld.mIsMovingLeft = pressed;
 }
 
+void Game::updateScore()
+{
+    mScore.setString("Score: " + mWorld.getScore());
+}
 

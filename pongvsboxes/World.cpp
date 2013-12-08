@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include <sstream>
+#include <stdlib.h>
+
 
 
 World::World(sf::RenderWindow& window)
@@ -10,6 +13,7 @@ World::World(sf::RenderWindow& window)
 , mTextures()
 , mSceneGraph()
 , mSceneLayers()
+, distribution(-1/(2*PI),1/(2*PI))
 {
     ballAngle = PI/4;
 
@@ -23,6 +27,8 @@ World::World(sf::RenderWindow& window)
     }
 	loadTextures();
 	buildScene();
+
+
 }
 
 //Här laddar vi de texturer (bilder) vi behöver.
@@ -61,9 +67,8 @@ void World::buildScene()
     //Skapar Player och sätter i foreground
     std::unique_ptr<Player> player(new Player(Player::Player1, mTextures));
     mPlayer = player.get();
-    mPlayer->setPosition(500, 500);
+    mPlayer->setPosition(500,700);
     mSceneLayers[Foreground]->attachChild(std::move(player));
-
 
     //Skapar en Ball och sätter i foreground
     std::unique_ptr<Ball> ball(new Ball(Ball::Ball1, mTextures));
@@ -90,44 +95,41 @@ void World::update(sf::Time dt)
             speed.x -= 200.f;
     if(mIsMovingRight)
             speed.x += 200.f;
-    if (!((mPlayer->getPosition().x < 0 && speed.x < 0) ||
-           mPlayer->getPosition().x +100 > mWindow.getSize().x && speed.x > 0))
+    if (!(((mPlayer->getPosition().x - mPlayer->getBoundingRect().width/2) < 0 && speed.x < 0) ||
+           (mPlayer->getPosition().x + mPlayer->getBoundingRect().width/2) > mWindow.getSize().x && speed.x > 0))
            mPlayer->move(speed * dt.asSeconds());
 
-   if (mBall->getPosition().y > mWindow.getSize().y)
+    if ((mBall->getPosition().y + mBall->getBoundingRect().height/2) > mWindow.getSize().y)
     {
-        //ballAngle = -ballAngle + v;
+        //HÄR SKA MAN DÖ EGENTLIGEN
         ballAngle = -ballAngle;
     }
-    if (mBall->getPosition().y  < 0)
+    else if ((mBall->getPosition().y - mBall->getBoundingRect().height/2)  < 0)
     {
-        //ballAngle = -ballAngle + v;
-        ballAngle = -ballAngle;
+        randomValue = distribution(generator);
+        ballAngle = -ballAngle + randomValue;
     }
-    if (mBall->getPosition().x  < 0)
+    else if ((mBall->getPosition().x - mBall->getBoundingRect().width/2) < 0)
+    {
+        randomValue = distribution(generator);
+        ballAngle = PI - ballAngle + randomValue;
+
+    }
+    else if ((mBall->getPosition().x + mBall->getBoundingRect().width/2) > mWindow.getSize().x)
     {
         //ballAngle = PI - ballAngle + v;
-
-        ballAngle = PI - ballAngle;
-
-    }
-    if (mBall->getPosition().x > mWindow.getSize().x)
-    {
-        //ballAngle = PI - ballAngle + v;
-
-        ballAngle = PI - ballAngle;
+        randomValue = distribution(generator);
+        ballAngle = PI - ballAngle + randomValue;
     }
 
-    mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle),
-                dt.asSeconds() *  300 * std::sin(ballAngle));
 
-
-
+    mBall->setVelocity(300 * std::cos(ballAngle), 300 * std::sin(ballAngle));
 
     handleCollisions();
 
     mSceneGraph.update(dt);
 }
+
 bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
         unsigned int category1 = colliders.first->getCategory();
@@ -163,15 +165,17 @@ void World::handleCollisions()
 
 
                         block.move(1000, 0);
-                        ballAngle = -ballAngle;
+                        score += 10;
+                        randomValue = distribution(generator);
+                        ballAngle = -ballAngle + randomValue;
                 }
                 else if (matchesCategories(pair, Category::Ball, Category::Player))
                 {
                         auto& ball = static_cast<Ball&>(*pair.first);
                         auto& player = static_cast<Player&>(*pair.second);
 
-
-                           ballAngle = -ballAngle;
+                        randomValue = distribution(generator);
+                        ballAngle = -ballAngle + randomValue;
                 }
 }
 }
@@ -186,3 +190,9 @@ void World::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
         mIsMovingLeft = pressed;
 }
 
+std::string World::getScore()
+{
+    std::stringstream stream;
+    stream << score;
+    return stream.str();
+}
