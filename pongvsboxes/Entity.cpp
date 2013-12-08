@@ -22,3 +22,8 @@ void Entity::updateCurrent(sf::Time dt)
 {
     move(mVelocity * dt.asSeconds());
 }
+
+void destroy()
+{
+
+}
