@@ -38,10 +38,12 @@ class World : private sf::NonCopyable
 
         bool mIsMovingLeft;
         bool mIsMovingRight;
-        bool exit;
+        bool exit = false;
+        bool winGame = false;
+        bool loseGame = false;
 
         void setPause(bool tPause);
-
+        bool getPause();
 
     private:
         void loadTextures();
@@ -76,6 +78,7 @@ class World : private sf::NonCopyable
 
         int level = 1;
         int count = 0;
+        int createdBlocks = 0;
 
         int score = 0;
         const double PI  =3.141592653589793238462;

@@ -17,14 +17,12 @@ public:
     void showSplashScreen();
 
 private:
-    World mWorld;
+    World *mWorld;
 
     void processEvents();
     void update(sf::Time TimePerFrame);
     void render();
-    void updateScore();
-    void updateLevel();
-    void updateLife();
+    void updateTexts();
 
     sf::RenderWindow mWindow;
     sf::Font mFont;
@@ -32,7 +30,10 @@ private:
 
     sf::Text mLevel;
     sf::Text mLife;
+    sf::Text mCenterText;
 
     sf::Texture splashScreen;
+
+    bool gameStarted = false;
 
 };

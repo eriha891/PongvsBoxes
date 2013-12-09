@@ -8,13 +8,14 @@ const double PI  =3.141592653589793238462;
 const sf::Time TimePerFrame = sf::seconds(1.f/60);
 
 Game::Game()
-: mWindow(sf::VideoMode(800, 600), "Pong vs Boxes", sf::Style::Close)
-, mWorld(mWindow)
+: mWindow(sf::VideoMode(800, 600), "Pong vs Boxes", sf::Style::Fullscreen)
 , mFont()
 , mScore()
 , mLevel()
 , mLife()
 {
+    mWorld = new World(mWindow);
+
     mFont.loadFromFile("resources/sansation.ttf");
     mScore.setFont(mFont);
     mScore.setPosition(mWindow.getSize().x-100, mWindow.getSize().y-50);
@@ -31,6 +32,11 @@ Game::Game()
     mLife.setCharacterSize(20);
     mLife.setColor(sf::Color::White);
 
+    mCenterText.setFont(mFont);
+    mCenterText.setPosition(400, 300);
+    mCenterText.setCharacterSize(35);
+    mCenterText.setColor(sf::Color::White);
+
     if (!(splashScreen.loadFromFile("resources/SplashScreen.png")))
     {
         return;
@@ -46,19 +52,35 @@ void Game::run()
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-    showSplashScreen();
+
 
     while(mWindow.isOpen())
     {
+        if (mWorld->winGame)
+            mCenterText.setString("You win!");
+        else if(mWorld->loseGame)
+            mCenterText.setString("Game over!");
+        if (mWorld->exit)
+        {
+            gameStarted = false;
+            delete mWorld;
+            mWorld = new World(mWindow);
+            mWorld->exit = false;
+            mCenterText.setString("");
+
+        }
+        if (!gameStarted)
+        {
+            showSplashScreen();
+        }
+
         timeSinceLastUpdate += clock.restart();
         while (timeSinceLastUpdate > TimePerFrame)
         {
             timeSinceLastUpdate -=TimePerFrame;
             processEvents();
 
-            updateScore();
-            updateLevel();
-            updateLife();
+            updateTexts();
             update(TimePerFrame);
         }
 
@@ -77,7 +99,11 @@ void Game::processEvents()
         switch(event.type)
         {
         case sf::Event::KeyPressed:
-            mWorld.setPause(false);
+            if (!gameStarted)
+                gameStarted = true;
+            if (mWorld->winGame || mWorld->loseGame)
+                mWorld->exit = true;
+            mWorld->setPause(false);
             handlePlayerInput(event.key.code, true);
             break;
         case sf::Event::KeyReleased:
@@ -93,7 +119,7 @@ void Game::processEvents()
 void Game::update(sf::Time TimePerFrame)
 {
 
-    mWorld.update(TimePerFrame);
+    mWorld->update(TimePerFrame);
 
 }
 
@@ -102,11 +128,12 @@ void Game::render()
     mWindow.clear();
 
     //Ritar världen
-	mWorld.draw();
+	mWorld->draw();
 
     mWindow.draw(mScore);
     mWindow.draw(mLevel);
     mWindow.draw(mLife);
+    mWindow.draw(mCenterText);
 	mWindow.display();
 }
 
@@ -114,22 +141,18 @@ void Game::render()
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
 {
     if (key == sf::Keyboard::D)
-        mWorld.mIsMovingRight = pressed;
+        mWorld->mIsMovingRight = pressed;
     if (key == sf::Keyboard::A)
-        mWorld.mIsMovingLeft = pressed;
+        mWorld->mIsMovingLeft = pressed;
+    if (key == sf::Keyboard::Escape)
+        mWindow.close();
 }
 
-void Game::updateScore()
+void Game::updateTexts()
 {
-    mScore.setString("Score: " + mWorld.getScore());
-}
-void Game::updateLevel()
-{
-    mLevel.setString("Level: " + mWorld.getLevel());
-}
-void Game::updateLife()
-{
-    mLife.setString("Life: " + mWorld.getLife());
+    mScore.setString("Score: " + mWorld->getScore());
+    mLevel.setString("Level: " + mWorld->getLevel());
+    mLife.setString("Life: " + mWorld->getLife());
 }
 
 void Game::showSplashScreen()
@@ -139,16 +162,11 @@ void Game::showSplashScreen()
     mWindow.draw(splash);
     mWindow.display();
 
-    sf::Event event;
-    while(true)
+    while(mWindow.isOpen())
     {
-        while(mWindow.pollEvent(event))
-        {
-            if (event.type == sf::Event::EventType::KeyPressed)
-            {
-                return;
-            }
-        }
+        processEvents();
+        if (gameStarted)
+            return;
     }
 }
 

@@ -62,6 +62,7 @@ void World::buildScene()
             mBlocks[i]->setPosition(50+86*j, 25 + 30*i);
             mBlocks[i]->setVelocity(0, 0);
             mSceneLayers[Foreground]->attachChild(std::move(block));
+            createdBlocks++;
         }
     }
 
@@ -84,21 +85,23 @@ void World::draw()
 {
     //Vi behöver inga views just nu
     //mWindow.setView(mWorldView);
-    mWindow.draw(mSceneGraph);
+    if (!(winGame || loseGame))
+        mWindow.draw(mSceneGraph);
+
 }
 
 void World::update(sf::Time dt)
 {
-    if (pause)
+    if (pause || winGame || loseGame)
     {
         return;
     }
     sf::Vector2f speed(0.f, 0.f);
 
     if(mIsMovingLeft)
-            speed.x -= 300.f;
+            speed.x -= 400.f;
     if(mIsMovingRight)
-            speed.x += 300.f;
+            speed.x += 400.f;
     if (!(((mPlayer->getPosition().x - mPlayer->getBoundingRect().width/2) < 0 && speed.x < 0) ||
            (mPlayer->getPosition().x + mPlayer->getBoundingRect().width/2) > mWindow.getSize().x && speed.x > 0))
            mPlayer->move(speed * dt.asSeconds());
@@ -111,7 +114,7 @@ void World::update(sf::Time dt)
         mBall->setPosition(400, 350);
         life--;
         if (life == 0){
-            exit = true;
+            loseGame = true;
         }
         setPause(true);
     }
@@ -185,7 +188,8 @@ void World::handleCollisions()
                             }
                         }
                         count++;
-
+                        if (count == createdBlocks)
+                            winGame = true;
                         score += 10;
                         randomValue = distribution(generator);
                         ballAngle = (-1)*ballAngle + randomValue;
@@ -231,4 +235,9 @@ std::string World::getScore()
 void World::setPause(bool tPause)
 {
     pause = tPause;
+}
+
+bool World::getPause()
+{
+    return pause;
 }
