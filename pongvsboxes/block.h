@@ -11,7 +11,6 @@ class Block : public Entity
        enum Type
                 {
                   Block1
-
                 };
 
 

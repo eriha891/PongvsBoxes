@@ -11,7 +11,7 @@ World::World(sf::RenderWindow& window)
 , mSceneGraph()
 , mSceneLayers()
 {
-    ballAngle = PI/4;
+    ballAngle = -PI/4;
 
     mIsMovingLeft = false;
     mIsMovingRight = false;
@@ -96,7 +96,6 @@ void World::update(sf::Time dt)
 
    if (mBall->getPosition().y > mWindow.getSize().y)
     {
-        //ballAngle = -ballAngle + v;
         ballAngle = -ballAngle;
     }
     if (mBall->getPosition().y  < 0)
@@ -107,22 +106,17 @@ void World::update(sf::Time dt)
     if (mBall->getPosition().x  < 0)
     {
         //ballAngle = PI - ballAngle + v;
-
         ballAngle = PI - ballAngle;
 
     }
     if (mBall->getPosition().x > mWindow.getSize().x)
     {
         //ballAngle = PI - ballAngle + v;
-
         ballAngle = PI - ballAngle;
     }
 
-    mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle),
-                dt.asSeconds() *  300 * std::sin(ballAngle));
-
-
-
+    mBall->move(dt.asSeconds() * 300.f * level * std::cos(ballAngle),
+                dt.asSeconds() * 300.f * level * std::sin(ballAngle));
 
     handleCollisions();
 
@@ -161,9 +155,14 @@ void World::handleCollisions()
                         auto& ball = static_cast<Ball&>(*pair.first);
                         auto& block =  static_cast<Block&>(*pair.second);
 
-
                         block.move(1000, 0);
                         ballAngle = -ballAngle;
+                        if(count % 4 == 0){
+                            if (level < 3 ){
+                            level = level + 0.3;
+                            }
+                        }
+                        count++;
                 }
                 else if (matchesCategories(pair, Category::Ball, Category::Player))
                 {
@@ -173,10 +172,8 @@ void World::handleCollisions()
 
                            ballAngle = -ballAngle;
                 }
+        }
 }
-}
-
-
 
 void World::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
 {

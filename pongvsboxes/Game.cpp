@@ -59,9 +59,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time TimePerFrame)
 {
-
     mWorld.update(TimePerFrame);
-
 }
 
 void Game::render()
