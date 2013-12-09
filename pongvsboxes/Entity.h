@@ -13,8 +13,6 @@ class Entity : public SceneNode
 
         void destroy();
 
-
-
     private:
         virtual void updateCurrent(sf::Time dt);
 

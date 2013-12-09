@@ -9,8 +9,7 @@
 Ball::Ball(Type type, const TextureHolder& textures)
 : mType(type), mSprite(textures.get(Textures::Ball))
 {
-
-   sf::FloatRect bounds = mSprite.getLocalBounds();
+    sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 

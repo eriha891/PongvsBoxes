@@ -123,7 +123,8 @@ void World::update(sf::Time dt)
         ballAngle = PI - ballAngle + randomValue;
     }
 
-    mBall->setVelocity(300 * std::cos(ballAngle), 300 * std::sin(ballAngle));
+    //mBall->setVelocity(300 * std::cos(ballAngle), 300 * std::sin(ballAngle));
+    mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle), dt.asSeconds() * 300 * std::sin(ballAngle));
 
     handleCollisions();
 
@@ -165,7 +166,9 @@ void World::handleCollisions()
 
                         block.move(1000, 0);
 
-                        ballAngle = -ballAngle;
+                        //ballAngle = -ballAngle;
+                        //ballAngle = (-1)*ballAngle;
+
                         if(count % 4 == 0){
                             if (level < 3 ){
                             level = level + 0.3;
@@ -175,7 +178,7 @@ void World::handleCollisions()
 
                         score += 10;
                         randomValue = distribution(generator);
-                        ballAngle = -ballAngle + randomValue;
+                        ballAngle = (-1)*ballAngle + randomValue;
 
                 }
                 else if (matchesCategories(pair, Category::Ball, Category::Player))
@@ -184,7 +187,7 @@ void World::handleCollisions()
                         auto& player = static_cast<Player&>(*pair.second);
 
                         randomValue = distribution(generator);
-                        ballAngle = -ballAngle + randomValue;
+                        ballAngle = (-1)*ballAngle;
                 }
         }
 }
