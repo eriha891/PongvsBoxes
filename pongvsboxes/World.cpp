@@ -19,6 +19,7 @@ World::World(sf::RenderWindow& window)
 
     mIsMovingLeft = false;
     mIsMovingRight = false;
+    exit = false;
 
 
     for (int i=0; i<MAX_AMOUNT_OF_BLOCKS; i++)
@@ -34,7 +35,7 @@ World::World(sf::RenderWindow& window)
 //Här laddar vi de texturer (bilder) vi behöver.
 void World::loadTextures()
 {
-    mTextures.load(Textures::Block, "resources/block.png");
+    mTextures.load(Textures::Block, "resources/Bricks.jpg");
     mTextures.load(Textures::Player, "resources/player.png");
     mTextures.load(Textures::Ball, "resources/ball.gif");
 }
@@ -55,10 +56,10 @@ void World::buildScene()
 
     for (int i = 0; i < 2; i++)
     {
-        for (int j = 0; j < 12; j++){
+        for (int j = 0; j < 10; j++){
             std::unique_ptr<Block> block(new Block(Block::Block1, mTextures));
             mBlocks[i] = block.get();
-            mBlocks[i]->setPosition(100+75*j, 50 + 50*i);
+            mBlocks[i]->setPosition(50+100*j, 25 + 50*i);
             mBlocks[i]->setVelocity(0, 0);
             mSceneLayers[Foreground]->attachChild(std::move(block));
         }
@@ -67,13 +68,13 @@ void World::buildScene()
     //Skapar Player och sätter i foreground
     std::unique_ptr<Player> player(new Player(Player::Player1, mTextures));
     mPlayer = player.get();
-    mPlayer->setPosition(500,700);
+    mPlayer->setPosition(400,550);
     mSceneLayers[Foreground]->attachChild(std::move(player));
 
     //Skapar en Ball och sätter i foreground
     std::unique_ptr<Ball> ball(new Ball(Ball::Ball1, mTextures));
     mBall = ball.get();
-    mBall->setPosition(600, 600);
+    mBall->setPosition(400, 350);
     mSceneLayers[Foreground]->attachChild(std::move(ball));
 
 
@@ -101,9 +102,14 @@ void World::update(sf::Time dt)
 
     if ((mBall->getPosition().y + mBall->getBoundingRect().height/2) > mWindow.getSize().y)
     {
-        //HÄR SKA MAN DÖ EGENTLIGEN
-
-        ballAngle = -ballAngle;
+        //här dör man
+        randomValue = distribution(generator);
+        ballAngle = -ballAngle + randomValue;
+        mBall->setPosition(400, 350);
+        life--;
+        if (life == 0){
+            exit = true;
+        }
     }
     else if ((mBall->getPosition().y - mBall->getBoundingRect().height/2)  < 0)
     {
@@ -124,7 +130,7 @@ void World::update(sf::Time dt)
     }
 
     //mBall->setVelocity(300 * std::cos(ballAngle), 300 * std::sin(ballAngle));
-    mBall->move(dt.asSeconds() * 300 * std::cos(ballAngle), dt.asSeconds() * 300 * std::sin(ballAngle));
+    mBall->move(dt.asSeconds() * 300 * level * std::cos(ballAngle), dt.asSeconds() * 300 * level * std::sin(ballAngle));
 
     handleCollisions();
 
@@ -204,5 +210,16 @@ std::string World::getScore()
 {
     std::stringstream stream;
     stream << score;
+    return stream.str();
+
+}std::string World::getLevel()
+{
+    std::stringstream stream;
+    stream << level;
+    return stream.str();
+}std::string World::getLife()
+{
+    std::stringstream stream;
+    stream << life;
     return stream.str();
 }

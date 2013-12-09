@@ -24,6 +24,7 @@ const int MAX_AMOUNT_OF_BLOCKS = 100;
 class World : private sf::NonCopyable
 {
     public:
+
         explicit World(sf::RenderWindow& window);
         void update(sf::Time dt);
         void draw();
@@ -31,11 +32,13 @@ class World : private sf::NonCopyable
         void handlePlayerInput(sf::Keyboard::Key, bool pressed);
 
         std::string getScore();
+        std::string getLevel();
+        std::string getLife();
 
 
         bool mIsMovingLeft;
         bool mIsMovingRight;
-
+        bool exit;
 
 
 
@@ -76,6 +79,8 @@ class World : private sf::NonCopyable
 
         int score = 0;
         const double PI  =3.141592653589793238462;
+
+        int life = 5;
 
 
 

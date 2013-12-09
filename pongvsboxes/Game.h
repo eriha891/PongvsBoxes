@@ -21,10 +21,15 @@ private:
     void update(sf::Time TimePerFrame);
     void render();
     void updateScore();
+    void updateLevel();
+    void updateLife();
 
     sf::RenderWindow mWindow;
     sf::Font mFont;
     sf::Text mScore;
+
+    sf::Text mLevel;
+    sf::Text mLife;
 
 
 };

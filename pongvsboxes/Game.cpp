@@ -8,16 +8,28 @@ const double PI  =3.141592653589793238462;
 const sf::Time TimePerFrame = sf::seconds(1.f/60);
 
 Game::Game()
-: mWindow(sf::VideoMode(1024, 768), "Pong vs Boxes", sf::Style::Close)
+: mWindow(sf::VideoMode(800, 600), "Pong vs Boxes", sf::Style::Close)
 , mWorld(mWindow)
 , mFont()
 , mScore()
+, mLevel()
+, mLife()
 {
     mFont.loadFromFile("resources/sansation.ttf");
     mScore.setFont(mFont);
     mScore.setPosition(mWindow.getSize().x-100, mWindow.getSize().y-50);
     mScore.setCharacterSize(20);
     mScore.setColor(sf::Color::White);
+
+    mLevel.setFont(mFont);
+    mLevel.setPosition(25, mWindow.getSize().y-50);
+    mLevel.setCharacterSize(20);
+    mLevel.setColor(sf::Color::White);
+
+    mLife.setFont(mFont);
+    mLife.setPosition(25, mWindow.getSize().y-100);
+    mLife.setCharacterSize(20);
+    mLife.setColor(sf::Color::White);
 }
 
 void Game::run()
@@ -35,10 +47,13 @@ void Game::run()
         {
             timeSinceLastUpdate -=TimePerFrame;
             processEvents();
+
             update(TimePerFrame);
         }
-
         updateScore();
+        updateLevel();
+        updateLife();
+
         render();
     }
 }
@@ -67,7 +82,9 @@ void Game::processEvents()
 
 void Game::update(sf::Time TimePerFrame)
 {
+
     mWorld.update(TimePerFrame);
+
 }
 
 void Game::render()
@@ -78,6 +95,8 @@ void Game::render()
 	mWorld.draw();
 
     mWindow.draw(mScore);
+    mWindow.draw(mLevel);
+    mWindow.draw(mLife);
 	mWindow.display();
 }
 
@@ -93,5 +112,13 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool pressed)
 void Game::updateScore()
 {
     mScore.setString("Score: " + mWorld.getScore());
+}
+void Game::updateLevel()
+{
+    mLevel.setString("Level: " + mWorld.getLevel());
+}
+void Game::updateLife()
+{
+    mLife.setString("Life: " + mWorld.getLife());
 }
 
