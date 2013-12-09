@@ -37,7 +37,7 @@ void World::loadTextures()
 {
     mTextures.load(Textures::Block, "resources/Bricks.jpg");
     mTextures.load(Textures::Player, "resources/player.png");
-    mTextures.load(Textures::Ball, "resources/ball.gif");
+    mTextures.load(Textures::Ball, "resources/ball.png");
 }
 
 //Funktionen som skapar hela "världen", i vårt fall alla blocks, player, och ball.
@@ -54,12 +54,12 @@ void World::buildScene()
     //Skapar tio block och lägger i Lagret Foreground
 
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
-        for (int j = 0; j < 10; j++){
+        for (int j = 0; j < 9   ; j++){
             std::unique_ptr<Block> block(new Block(Block::Block1, mTextures));
             mBlocks[i] = block.get();
-            mBlocks[i]->setPosition(50+100*j, 25 + 50*i);
+            mBlocks[i]->setPosition(50+86*j, 25 + 30*i);
             mBlocks[i]->setVelocity(0, 0);
             mSceneLayers[Foreground]->attachChild(std::move(block));
         }
@@ -74,7 +74,7 @@ void World::buildScene()
     //Skapar en Ball och sätter i foreground
     std::unique_ptr<Ball> ball(new Ball(Ball::Ball1, mTextures));
     mBall = ball.get();
-    mBall->setPosition(400, 350);
+    mBall->setPosition(400, 450);
     mSceneLayers[Foreground]->attachChild(std::move(ball));
 
 
@@ -89,13 +89,16 @@ void World::draw()
 
 void World::update(sf::Time dt)
 {
-
+    if (pause)
+    {
+        return;
+    }
     sf::Vector2f speed(0.f, 0.f);
 
     if(mIsMovingLeft)
-            speed.x -= 200.f;
+            speed.x -= 300.f;
     if(mIsMovingRight)
-            speed.x += 200.f;
+            speed.x += 300.f;
     if (!(((mPlayer->getPosition().x - mPlayer->getBoundingRect().width/2) < 0 && speed.x < 0) ||
            (mPlayer->getPosition().x + mPlayer->getBoundingRect().width/2) > mWindow.getSize().x && speed.x > 0))
            mPlayer->move(speed * dt.asSeconds());
@@ -110,6 +113,7 @@ void World::update(sf::Time dt)
         if (life == 0){
             exit = true;
         }
+        setPause(true);
     }
     else if ((mBall->getPosition().y - mBall->getBoundingRect().height/2)  < 0)
     {
@@ -130,7 +134,7 @@ void World::update(sf::Time dt)
     }
 
     //mBall->setVelocity(300 * std::cos(ballAngle), 300 * std::sin(ballAngle));
-    mBall->move(dt.asSeconds() * 300 * level * std::cos(ballAngle), dt.asSeconds() * 300 * level * std::sin(ballAngle));
+    mBall->move(dt.asSeconds() * 300 * (level+3)/3.f * std::cos(ballAngle), dt.asSeconds() * 300 * (level+3)/3.f * std::sin(ballAngle));
 
     handleCollisions();
 
@@ -177,7 +181,7 @@ void World::handleCollisions()
 
                         if(count % 4 == 0){
                             if (level < 3 ){
-                            level = level + 0.3;
+                            level++;
                             }
                         }
                         count++;
@@ -222,4 +226,9 @@ std::string World::getScore()
     std::stringstream stream;
     stream << life;
     return stream.str();
+}
+
+void World::setPause(bool tPause)
+{
+    pause = tPause;
 }

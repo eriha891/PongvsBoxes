@@ -30,6 +30,11 @@ Game::Game()
     mLife.setPosition(25, mWindow.getSize().y-100);
     mLife.setCharacterSize(20);
     mLife.setColor(sf::Color::White);
+
+    if (!(splashScreen.loadFromFile("resources/SplashScreen.png")))
+    {
+        return;
+    }
 }
 
 void Game::run()
@@ -40,6 +45,9 @@ void Game::run()
     //Game loop with clock
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
+    showSplashScreen();
+
     while(mWindow.isOpen())
     {
         timeSinceLastUpdate += clock.restart();
@@ -48,11 +56,12 @@ void Game::run()
             timeSinceLastUpdate -=TimePerFrame;
             processEvents();
 
+            updateScore();
+            updateLevel();
+            updateLife();
             update(TimePerFrame);
         }
-        updateScore();
-        updateLevel();
-        updateLife();
+
 
         render();
     }
@@ -68,6 +77,7 @@ void Game::processEvents()
         switch(event.type)
         {
         case sf::Event::KeyPressed:
+            mWorld.setPause(false);
             handlePlayerInput(event.key.code, true);
             break;
         case sf::Event::KeyReleased:
@@ -120,5 +130,25 @@ void Game::updateLevel()
 void Game::updateLife()
 {
     mLife.setString("Life: " + mWorld.getLife());
+}
+
+void Game::showSplashScreen()
+{
+    sf::Sprite splash(splashScreen);
+
+    mWindow.draw(splash);
+    mWindow.display();
+
+    sf::Event event;
+    while(true)
+    {
+        while(mWindow.pollEvent(event))
+        {
+            if (event.type == sf::Event::EventType::KeyPressed)
+            {
+                return;
+            }
+        }
+    }
 }
 

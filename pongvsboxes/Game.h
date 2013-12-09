@@ -14,6 +14,8 @@ public:
 
     void handlePlayerInput(sf::Keyboard::Key, bool pressed);
 
+    void showSplashScreen();
+
 private:
     World mWorld;
 
@@ -31,5 +33,6 @@ private:
     sf::Text mLevel;
     sf::Text mLife;
 
+    sf::Texture splashScreen;
 
 };

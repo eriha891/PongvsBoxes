@@ -40,7 +40,7 @@ class World : private sf::NonCopyable
         bool mIsMovingRight;
         bool exit;
 
-
+        void setPause(bool tPause);
 
 
     private:
@@ -74,7 +74,7 @@ class World : private sf::NonCopyable
         float ballAngle;
 
 
-        double level = 1;
+        int level = 1;
         int count = 0;
 
         int score = 0;
@@ -82,7 +82,7 @@ class World : private sf::NonCopyable
 
         int life = 5;
 
-
+        bool pause = true;
 
         std::default_random_engine generator;
         std::uniform_real_distribution<float> distribution;
