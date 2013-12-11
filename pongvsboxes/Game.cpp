@@ -8,7 +8,7 @@ const double PI  =3.141592653589793238462;
 const sf::Time TimePerFrame = sf::seconds(1.f/60);
 
 Game::Game()
-: mWindow(sf::VideoMode(800, 600), "Pong vs Boxes", sf::Style::Fullscreen)
+: mWindow(sf::VideoMode(800, 600), "Pong vs Boxes", sf::Style::Close)
 , mFont()
 , mScore()
 , mLevel()
@@ -99,11 +99,13 @@ void Game::processEvents()
         switch(event.type)
         {
         case sf::Event::KeyPressed:
+            if (gameStarted && mWorld->getPause())
+                mWorld->setPause(false);
             if (!gameStarted)
                 gameStarted = true;
             if (mWorld->winGame || mWorld->loseGame)
                 mWorld->exit = true;
-            mWorld->setPause(false);
+
             handlePlayerInput(event.key.code, true);
             break;
         case sf::Event::KeyReleased:

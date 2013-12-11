@@ -182,7 +182,7 @@ void World::handleCollisions()
                         //ballAngle = -ballAngle;
                         //ballAngle = (-1)*ballAngle;
 
-                        if(count % 4 == 0){
+                        if(count != 0 && count % 5 == 0){
                             if (level < 3 ){
                             level++;
                             }
